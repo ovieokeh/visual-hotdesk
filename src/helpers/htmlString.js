@@ -1,12 +1,21 @@
 module.exports = `
 <style>
+  * {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+      'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  html, body {
+    width: 1440px;
+  }
+
   .floor {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-height: 600px;
+    width: 1440px;
     border: 8px solid black;
     display: grid;
     grid-template-rows: 1fr 1fr;
-    margin: 10% auto;
+    margin: 5% auto 10% auto;
   }
 
   .row {
@@ -95,6 +104,41 @@ module.exports = `
     cursor: not-allowed;
     background-color: red;
   }
+
+  .legend {
+    margin: 10%;
+  }
+
+  .legend h2 {
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .legend .info {
+    display: flex;
+    align-items: center;
+    width: 180px;
+  }
+
+  .legend .indic {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10%;
+  }
+
+  .legend .available {
+    background-color: green;
+  }
+
+  .legend .occupied {
+    background-color: red;
+  }
+
+  .legend p {
+    display: inline-block;
+  }
 </style>
 
 <!DOCTYPE html>
@@ -106,6 +150,17 @@ module.exports = `
   </head>
   <body>
     <div class="floor"></div>
+    <div class="legend">
+    <h2>Legend</h2>
+    <div class="info">
+      <span class="indic available"></span>
+      <p>Available seats</p>
+    </div>
+    <div class="info">
+      <span class="indic occupied"></span>
+      <p>Occupied seats</p>
+    </div>
+  </div>
   </body>
   <script src="../index.js"></script>
 </html>

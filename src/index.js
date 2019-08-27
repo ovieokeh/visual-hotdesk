@@ -1,12 +1,12 @@
-/* eslint-disable wrap-iife */
 /* eslint-disable no-unused-expressions */
-
 const floorPlans = require('./floorPlans');
-const { createDiv, updateStyle, generateImage } = require('./helpers');
+const { createDiv, updateStyle, generateImageUrl } = require('./helpers');
 
-function generateFloorPlan(floorId, takenSeats = []) {
+async function generateFloorPlan(floorId, takenSeats = []) {
   const floorDiv = global.document.querySelector('.floor');
   const floorPlan = floorPlans[floorId];
+
+  if (!floorPlan) return null;
 
   Object.keys(floorPlan).forEach((row, rowIndex) => {
     const rowDiv = createDiv('row', floorDiv);
@@ -33,7 +33,7 @@ function generateFloorPlan(floorId, takenSeats = []) {
         const tableRow = createDiv('table-row', sectionDiv);
         const seatsCol = createDiv('seats-col', tableRow);
         const tableImg = createDiv('table', tableRow);
-        tableImg.innerText = table.name;
+        tableImg.innerHTML = table.name;
         const secondSeatsCol = createDiv('seats-col', tableRow);
 
         updateStyle(tableRow, 'height', `${table.capacity * 25}px`);
@@ -65,9 +65,9 @@ function generateFloorPlan(floorId, takenSeats = []) {
               : createDiv('seat', seatsCol);
 
           const id = createDiv('seat-id', seatDiv);
-          id.innerText = seat.number;
+          id.innerHTML = seat.number;
           if (takenSeats.includes(seat.number)) {
-            id.innerText = 'x';
+            id.innerHTML = 'x';
             id.classList.add('taken');
           }
         });
@@ -75,9 +75,13 @@ function generateFloorPlan(floorId, takenSeats = []) {
     });
   });
 
-  generateImage(global.document.querySelector('body'), floorDiv);
-}
+  const data = {
+    html: global.document.querySelector('html').innerHTML,
+  };
 
-generateFloorPlan('HD');
+  const url = await generateImageUrl(data);
+  global.document.querySelector('.floor').innerHTML = '';
+  return url;
+}
 
 module.exports = generateFloorPlan;

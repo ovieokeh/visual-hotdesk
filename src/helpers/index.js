@@ -1,5 +1,11 @@
 const createDiv = require('./createDiv');
 const updateStyle = require('./updateStyle');
-const generateImage = require('./generateImage');
+const htmlString = require('./htmlString');
+const generateImageUrl = require('./generateImageUrl');
 
-module.exports = { createDiv, updateStyle, generateImage };
+module.exports = {
+  createDiv,
+  updateStyle,
+  htmlString,
+  generateImageUrl,
+};

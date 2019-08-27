@@ -1,25 +1,35 @@
 const express = require('express');
 const jsdom = require('jsdom');
-const html2canvas = require('html2canvas');
+const bodyParser = require('body-parser');
 const generateFloorPlan = require('./src');
-const html = require('./src/helpers/html');
+const { htmlString } = require('./src/helpers');
 
+const { log } = console;
 const { JSDOM } = jsdom;
 const app = express();
-const port = 3000;
+const port = 4000;
 
-global.window = new JSDOM(html).window;
+global.window = new JSDOM(htmlString).window;
 global.document = window.document;
-// global.HTMLCanvasElement = window.document.;
 
-app.get('/', async (req, res) => {
-  try {
-    const floor = await html2canvas(generateFloorPlan('HD'));
-    res.send(floor);
-  } catch (err) {
-    console.error(err.message);
+app.use(bodyParser.json());
+
+app.post('/', async (req, res) => {
+  const { floorId, takenSeats = [] } = req.body;
+  const url = await generateFloorPlan(floorId.toUpperCase(), takenSeats);
+
+  if (!url) {
+    res.json({ message: 'floorplan not found' });
+    return;
   }
-  // console.log(floor);
+
+  res.send(url);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.all('*', (_, res) => {
+  res.status(404).json({
+    message: 'endpoint not recognized',
+  });
+});
+
+app.listen(port, () => log(`Example app listening on port ${port}!`));
