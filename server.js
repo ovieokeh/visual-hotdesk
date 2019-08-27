@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const jsdom = require('jsdom');
 const bodyParser = require('body-parser');
@@ -7,7 +8,7 @@ const { htmlString } = require('./src/helpers');
 const { log } = console;
 const { JSDOM } = jsdom;
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 global.window = new JSDOM(htmlString).window;
 global.document = window.document;
