@@ -19,6 +19,12 @@ app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
   const { floorId, takenSeats = [] } = req.body;
+
+  if (!floorId) {
+    res.json({ message: 'floorId must be provided in request body' });
+    return;
+  }
+
   const url = await generateFloorPlan(floorId.toUpperCase(), takenSeats);
 
   if (!url) {
