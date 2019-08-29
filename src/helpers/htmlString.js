@@ -1,144 +1,100 @@
 module.exports = `
 <style>
-  * {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-      'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  }
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
 
-  html, body {
-    width: 1440px;
-  }
+.floor {
+  max-height: 600px;
+  border: 8px solid black;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  margin: 5% auto 5% auto;
+  background-color: #eff0f1;
+}
 
-  .floor {
-    max-height: 600px;
-    width: 1440px;
-    border: 8px solid black;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    margin: 5% auto 10% auto;
-  }
+.row {
+  display: grid;
+  align-items: flex-start;
+}
 
-  .row {
-    display: grid;
-    align-items: flex-start;
-    background-color: #eff0f1;
-  }
+.section {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 0.5rem 0.2rem;
+  border-right: 10px solid black;
+  position: relative;
+}
 
-  .section {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding: 1rem 0;
-    border-right: 10px solid black;
-    position: relative;
-  }
+.section:last-of-type {
+  border-right: none;
+}
 
-  .section:last-of-type {
-    border-right: none;
-  }
+.table {
+  display: grid;
+  grid-auto-flow: dense;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1.5%;
+}
 
-  .table-row {
-    display: flex;
-    margin: 0 1rem;
-  }
+.seat {
+  grid-column: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(77, 153, 77);
+  border: 2px solid black;
+}
 
-  .seats-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 20px;
-  }
+.seat.right {
+  grid-column: 2;
+}
 
-  .table {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: inherit;
-    margin: 0 -0.5rem;
-    background-color: #cbbeb1;
-    background-image: url('./assets/wood-pattern.png');
-    border: 2px solid #a0958a;
-    border-radius: 5px;
-    position: relative;
-    z-index: 10;
-  }
+.seat.taken {
+  background-color: rgb(156, 3, 3);
+}
 
-  .one-sided {
-    width: 35%;
-  }
+.legend {
+  margin: 2% 10%;
+}
 
-  .seat,
-  .seat-right {
-    width: 20px;
-    height: 20px;
-    background-image: url('./assets/chair.jpg');
-    background-size: cover;
-    cursor: pointer;
-    transform: rotate(-90deg);
-    z-index: 9;
-    position: relative;
-  }
+.legend h2 {
+  text-transform: uppercase;
+  color: #555;
+}
 
-  .seat-right {
-    transform: rotate(90deg);
-  }
+.legend .info {
+  display: flex;
+  align-items: center;
+  width: 180px;
+}
 
-  .seat-id {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background-color: green;
-    border: 1px solid white;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    top: -35px;
-    left: -8px;
-    font-size: 0.5rem;
-  }
+.legend .indic {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10%;
+}
 
-  .seat-id.taken {
-    cursor: not-allowed;
-    background-color: red;
-  }
+.legend .available {
+  background-color: rgb(77, 153, 77);
+}
 
-  .legend {
-    margin: 10%;
-  }
+.legend .occupied {
+  background-color: rgb(156, 3, 3);
+}
 
-  .legend h2 {
-    text-transform: uppercase;
-    color: #555;
-  }
-
-  .legend .info {
-    display: flex;
-    align-items: center;
-    width: 180px;
-  }
-
-  .legend .indic {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-right: 10%;
-  }
-
-  .legend .available {
-    background-color: green;
-  }
-
-  .legend .occupied {
-    background-color: red;
-  }
-
-  .legend p {
-    display: inline-block;
-  }
+.legend p {
+  display: inline-block;
+}
 </style>
 
 <!DOCTYPE html>

@@ -4,8 +4,16 @@ require('newrelic');
 const express = require('express');
 const jsdom = require('jsdom');
 const bodyParser = require('body-parser');
+const puppeteer = require('puppeteer');
+const cloudinary = require('cloudinary').v2;
 const generateFloorPlan = require('./src');
 const { htmlString } = require('./src/helpers');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const { log } = console;
 const { JSDOM } = jsdom;
@@ -15,24 +23,39 @@ const port = process.env.PORT || 4000;
 global.window = new JSDOM(htmlString).window;
 global.document = window.document;
 
+let page;
+
+(async () => {
+  const browser = await puppeteer.launch({ headless: true });
+  page = await browser.newPage();
+})();
+
 app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
   const { floorId, takenSeats = [] } = req.body;
 
   if (!floorId) {
-    res.json({ message: 'floorId must be provided in request body' });
-    return;
+    return res.json({ message: 'floorId must be provided in request body' });
   }
 
-  const url = await generateFloorPlan(floorId.toUpperCase(), takenSeats);
+  const imgBuffer = await generateFloorPlan(
+    page,
+    floorId.toUpperCase(),
+    takenSeats,
+  );
 
-  if (!url) {
-    res.json({ message: 'floorplan not found' });
-    return;
+  if (!imgBuffer) {
+    return res.json({ message: 'floorplan not found' });
   }
-
-  res.send(url);
+  const start = Date.now();
+  cloudinary.uploader
+    .upload_stream({}, (err, img) => {
+      const end = Date.now();
+      res.send(img.url);
+      console.log(`${end - start}ms to generate image url`);
+    })
+    .end(imgBuffer);
 });
 
 app.all('*', (_, res) => {
