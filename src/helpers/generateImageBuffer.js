@@ -1,7 +1,9 @@
-// const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
 
-async function generateImageBuffer(page, html) {
+async function generateImageBuffer(html) {
   const start = Date.now();
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
   await page.setContent(html);
   const ssBuffer = await page.screenshot({
     encoding: 'string',

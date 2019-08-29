@@ -23,13 +23,6 @@ const port = process.env.PORT || 4000;
 global.window = new JSDOM(htmlString).window;
 global.document = window.document;
 
-let page;
-
-(async () => {
-  const browser = await puppeteer.launch({ headless: true });
-  page = await browser.newPage();
-})();
-
 app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
@@ -39,11 +32,7 @@ app.post('/', async (req, res) => {
     return res.json({ message: 'floorId must be provided in request body' });
   }
 
-  const imgBuffer = await generateFloorPlan(
-    page,
-    floorId.toUpperCase(),
-    takenSeats,
-  );
+  const imgBuffer = await generateFloorPlan(floorId.toUpperCase(), takenSeats);
 
   if (!imgBuffer) {
     return res.json({ message: 'floorplan not found' });

@@ -2,7 +2,7 @@
 const floorPlans = require('./floorPlans');
 const { createDiv, updateStyle, generateImageBuffer } = require('./helpers');
 
-async function generateFloorPlan(page, floorId, takenSeats = []) {
+async function generateFloorPlan(floorId, takenSeats = []) {
   const start = Date.now();
   const floorDiv = global.document.querySelector('.floor');
   const floorPlan = floorPlans[floorId];
@@ -56,7 +56,7 @@ async function generateFloorPlan(page, floorId, takenSeats = []) {
   const end = Date.now();
   console.log(`${end - start}ms to generate html`);
 
-  const imgBuffer = await generateImageBuffer(page, html);
+  const imgBuffer = await generateImageBuffer(html);
 
   global.document.querySelector('.floor').innerHTML = '';
 
