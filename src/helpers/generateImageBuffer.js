@@ -16,6 +16,7 @@ async function generateImageBuffer(html) {
 
   console.log(`${end - start}ms to generate ssBuffer`);
 
+  await browser.close();
   return ssBuffer;
 }
 
