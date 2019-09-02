@@ -10,6 +10,7 @@ module.exports = `
   border: 8px solid black;
   display: grid;
   grid-template-rows: 1fr 1fr;
+  grid-row-gap: 50px;
   margin: 5% auto 5% auto;
   background-color: #eff0f1;
 }
@@ -37,7 +38,17 @@ module.exports = `
   grid-auto-flow: dense;
   justify-content: center;
   align-items: center;
-  margin: 0 1.5%;
+  margin: 0 2%;
+}
+
+.table.horizontal .seat {
+  grid-row: 1;
+  grid-column: inherit;
+}
+
+.table.horizontal .seat.right {
+  grid-row: 2;
+  grid-column: inherit;
 }
 
 .seat {

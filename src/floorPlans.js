@@ -105,6 +105,7 @@ module.exports = {
             capacity: 10,
             sides: 2,
             name: '1C',
+            orientation: 'horizontal',
             seats: [
               { number: '1C1', taken: false },
               { number: '1C2', taken: false },

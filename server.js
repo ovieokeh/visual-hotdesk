@@ -4,7 +4,6 @@ require('newrelic');
 const express = require('express');
 const jsdom = require('jsdom');
 const bodyParser = require('body-parser');
-const puppeteer = require('puppeteer');
 const cloudinary = require('cloudinary').v2;
 const generateFloorPlan = require('./src');
 const { htmlString } = require('./src/helpers');
@@ -37,8 +36,9 @@ app.post('/', async (req, res) => {
   if (!imgBuffer) {
     return res.json({ message: 'floorplan not found' });
   }
+
   const start = Date.now();
-  cloudinary.uploader
+  return cloudinary.uploader
     .upload_stream({}, (err, img) => {
       const end = Date.now();
       res.send(img.url);

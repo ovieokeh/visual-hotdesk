@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-expressions */
 const floorPlans = require('./floorPlans');
-const { createDiv, updateStyle, generateImageBuffer } = require('./helpers');
+const {
+  createDiv,
+  updateStyle,
+  generateImageBuffer,
+  styleTable,
+} = require('./helpers');
 
 async function generateFloorPlan(floorId, takenSeats = []) {
   const start = Date.now();
@@ -27,14 +32,8 @@ async function generateFloorPlan(floorId, takenSeats = []) {
 
       section.forEach((table) => {
         const tableDiv = createDiv('table', sectionDiv);
-        const tableHeight = table.capacity * 25;
-        updateStyle(tableDiv, 'height', `${tableHeight}px`);
-        updateStyle(tableDiv, 'width', '100%');
-        updateStyle(
-          tableDiv,
-          'grid-template-columns',
-          `repeat(${table.sides}, minmax(auto, 100px))`,
-        );
+
+        styleTable(tableDiv, table);
 
         table.seats.forEach((seat, seatIndex) => {
           const isRight = seatIndex >= table.seats.length / 2;
@@ -43,10 +42,7 @@ async function generateFloorPlan(floorId, takenSeats = []) {
 
           isRight && seatDiv.classList.add('right');
 
-          if (takenSeats.includes(seat.number)) {
-            seatDiv.classList.add('taken');
-            seatDiv.innerHTML = 'x';
-          }
+          takenSeats.includes(seat.number) && seatDiv.classList.add('taken');
         });
       });
     });
