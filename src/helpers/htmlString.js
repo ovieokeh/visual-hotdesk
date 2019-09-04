@@ -3,15 +3,36 @@ module.exports = `
 * {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  --available-color: #0b6623;
+  --occupied-color: #b80f0a;
+  --none-hotdesks: #0047ab;
+  --grey: #858585;
+}
+
+/* * {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  --available-color: #00cd00;
+  --occupied-color: #ff0000;
+  --none-hotdesks: #0000ff;
+  --grey: #858585;
+} */
+
+html, body {
+  width: 980px;
+}
+
+body {
+  padding-right: 25px;
 }
 
 .floor {
+  min-width: 980px;
   max-height: 600px;
   border: 8px solid black;
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-row-gap: 50px;
-  margin: 5% auto 5% auto;
   background-color: #eff0f1;
 }
 
@@ -24,7 +45,7 @@ module.exports = `
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  padding: 0.5rem 0.2rem;
+  padding: 0.2rem;
   border-right: 10px solid black;
   position: relative;
 }
@@ -38,7 +59,11 @@ module.exports = `
   grid-auto-flow: dense;
   justify-content: center;
   align-items: center;
-  margin: 0 2%;
+  min-height: 100px;
+  min-width: 80px;
+  margin: 0 1.5%;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .table.horizontal .seat {
@@ -51,6 +76,18 @@ module.exports = `
   grid-column: inherit;
 }
 
+.title {
+  grid-column: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--grey);
+  font-weight: bold;
+  height: 100%;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
 .seat {
   grid-column: 1;
   display: flex;
@@ -60,8 +97,8 @@ module.exports = `
   font-size: 1rem;
   width: 100%;
   height: 100%;
-  background-color: rgb(77, 153, 77);
-  border: 2px solid black;
+  background-color: var(--available-color);
+  border: 1px solid #fff;
 }
 
 .seat.right {
@@ -69,11 +106,30 @@ module.exports = `
 }
 
 .seat.taken {
-  background-color: rgb(156, 3, 3);
+  background-color: var(--occupied-color);
+}
+
+.none-hotdesks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100px;
+  min-width: 100px;
+  background-color: var(--none-hotdesks);
+  color: white;
+}
+
+.call-booth {
+  background-color: var(--cb-color);
 }
 
 .legend {
   margin: 2% 10%;
+}
+
+.legend .content {
+  display: flex;
 }
 
 .legend h2 {
@@ -96,15 +152,28 @@ module.exports = `
 }
 
 .legend .available {
-  background-color: rgb(77, 153, 77);
+  background-color: var(--available-color);
 }
 
 .legend .occupied {
-  background-color: rgb(156, 3, 3);
+  background-color: var(--occupied-color);
+}
+
+.legend .nh {
+  background-color: var(--none-hotdesks);
 }
 
 .legend p {
   display: inline-block;
+}
+
+.blank {
+  background-color: transparent;
+  color: transparent;
+}
+
+.wide {
+  width: 200px;
 }
 </style>
 
@@ -118,16 +187,22 @@ module.exports = `
   <body>
     <div class="floor"></div>
     <div class="legend">
-    <h2>Legend</h2>
-    <div class="info">
-      <span class="indic available"></span>
-      <p>Available seats</p>
+      <h2>Legend</h2>
+      <div class="content">
+        <div class="info">
+          <span class="indic available"></span>
+          <p>Available seats</p>
+        </div>
+        <div class="info">
+          <span class="indic occupied"></span>
+          <p>Occupied seats</p>
+        </div>
+        <div class="info">
+          <span class="indic nh"></span>
+          <p>Landmarks</p>
+        </div>
+      </div>
     </div>
-    <div class="info">
-      <span class="indic occupied"></span>
-      <p>Occupied seats</p>
-    </div>
-  </div>
   </body>
   <script src="../index.js"></script>
 </html>

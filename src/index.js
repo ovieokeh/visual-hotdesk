@@ -33,27 +33,38 @@ async function generateFloorPlan(floorId, takenSeats = []) {
       section.forEach((table) => {
         const tableDiv = createDiv('table', sectionDiv);
 
+        if (table.type !== 'hotdesk') {
+          const newDiv = createDiv('none-hotdesks', tableDiv);
+          newDiv.innerHTML = table.name;
+          table.blank && newDiv.classList.add('blank');
+          table.isWide && newDiv.classList.add('wide');
+          return;
+        }
+
         styleTable(tableDiv, table);
+        const tableTitle = createDiv('title', tableDiv);
+        tableTitle.innerHTML = table.name;
 
         table.seats.forEach((seat, seatIndex) => {
-          const isRight = seatIndex >= table.seats.length / 2;
+          const isRight =
+            seatIndex >= table.seats.length / 2 && table.sides > 1;
           const seatDiv = createDiv('seat', tableDiv);
-          seatDiv.innerHTML = seat.number;
+          seatDiv.innerHTML = seat;
 
           isRight && seatDiv.classList.add('right');
 
-          takenSeats.includes(seat.number) && seatDiv.classList.add('taken');
+          takenSeats.includes(seat) && seatDiv.classList.add('taken');
         });
       });
     });
   });
 
   const html = global.document.querySelector('html').innerHTML;
+
   const end = Date.now();
   console.log(`${end - start}ms to generate html`);
 
   const imgBuffer = await generateImageBuffer(html);
-
   global.document.querySelector('.floor').innerHTML = '';
 
   return imgBuffer;

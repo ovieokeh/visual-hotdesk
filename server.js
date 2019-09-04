@@ -18,6 +18,12 @@ const { log } = console;
 const { JSDOM } = jsdom;
 const app = express();
 const port = process.env.PORT || 4000;
+const availableFloorPlans = [
+  'LagosFirstFloor',
+  'NairobiFirstFloor',
+  'NairobiSecondFloor',
+  'NairobiThirdFloor',
+];
 
 global.window = new JSDOM(htmlString).window;
 global.document = window.document;
@@ -31,10 +37,10 @@ app.post('/', async (req, res) => {
     return res.json({ message: 'floorId must be provided in request body' });
   }
 
-  const imgBuffer = await generateFloorPlan(floorId.toUpperCase(), takenSeats);
+  const imgBuffer = await generateFloorPlan(floorId, takenSeats);
 
   if (!imgBuffer) {
-    return res.json({ message: 'floorplan not found' });
+    return res.json({ message: 'floorplan not found', availableFloorPlans });
   }
 
   const start = Date.now();
