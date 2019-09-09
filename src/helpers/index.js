@@ -1,8 +1,9 @@
-const createDiv = require('./createDiv');
-const updateStyle = require('./updateStyle');
-const htmlString = require('./htmlString');
-const generateImageBuffer = require('./generateImageBuffer');
-const styleTable = require('./styleTable');
+const createDiv = require('./createDiv')
+const updateStyle = require('./updateStyle')
+const htmlString = require('./htmlString')
+const generateImageBuffer = require('./generateImageBuffer')
+const styleTable = require('./styleTable')
+const locateUser = require('./locateUser')
 
 module.exports = {
   createDiv,
@@ -10,4 +11,5 @@ module.exports = {
   htmlString,
   generateImageBuffer,
   styleTable,
-};
+  locateUser
+}

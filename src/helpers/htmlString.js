@@ -1,12 +1,16 @@
 module.exports = `
 <style>
-* {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+:root {
   --available-color: #0b6623;
   --occupied-color: #b80f0a;
   --none-hotdesks: #0047ab;
   --grey: #858585;
+  --andela-blue: #3359df;
+}
+
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 /* * {
@@ -16,6 +20,7 @@ module.exports = `
   --occupied-color: #ff0000;
   --none-hotdesks: #0000ff;
   --grey: #858585;
+  --andela-blue: #3359df;
 } */
 
 html, body {
@@ -39,15 +44,14 @@ body {
 .row {
   display: grid;
   align-items: flex-start;
+  min-height: 220px;
 }
 
 .section {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+  justify-content: space-evenly;
   padding: 0.2rem;
-  border-right: 10px solid black;
-  position: relative;
+  border-right: 8px solid black;
 }
 
 .section:last-of-type {
@@ -61,9 +65,8 @@ body {
   align-items: center;
   min-height: 100px;
   min-width: 80px;
+  max-width: 150px;
   margin: 0 1.5%;
-  border-radius: 10px;
-  overflow: hidden;
 }
 
 .table.horizontal .seat {
@@ -81,11 +84,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid white;
   background-color: var(--grey);
   font-weight: bold;
   height: 100%;
   font-size: 0.8rem;
   text-transform: uppercase;
+  border-radius: 8px 8px 0 0;
 }
 
 .seat {
@@ -94,8 +99,6 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 1rem;
-  width: 100%;
   height: 100%;
   background-color: var(--available-color);
   border: 1px solid #fff;
@@ -107,6 +110,39 @@ body {
 
 .seat.taken {
   background-color: var(--occupied-color);
+  position: relative;
+}
+
+.pointer {
+  position: absolute;
+  top: -130%;
+  border-radius: 50%;
+  border: 8px solid var(--andela-blue);
+  width: 30px;
+  height: 30px;
+  z-index: 3;
+  background-color: white;
+  background-size: contain;
+}
+
+.pointer::after {
+  content: "";
+  position: absolute;
+  bottom: -43px;
+  left: -3px;
+  border: 18px solid transparent;
+  border-top: 25px solid var(--andela-blue);
+}
+
+.highlight {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1000em rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 .none-hotdesks {
@@ -114,14 +150,12 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100px;
-  min-width: 100px;
-  background-color: var(--none-hotdesks);
   color: white;
-}
-
-.call-booth {
-  background-color: var(--cb-color);
+  background-color: var(--andela-blue);
+  min-height: 100px;
+  min-width: 70px;
+  padding: 0 0.5rem;
+  border-radius: 8px;
 }
 
 .legend {
@@ -160,11 +194,7 @@ body {
 }
 
 .legend .nh {
-  background-color: var(--none-hotdesks);
-}
-
-.legend p {
-  display: inline-block;
+  background-color: var(--andela-blue);
 }
 
 .blank {
@@ -173,7 +203,7 @@ body {
 }
 
 .wide {
-  width: 200px;
+  width: 130px;
 }
 </style>
 
