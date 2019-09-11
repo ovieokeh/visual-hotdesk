@@ -47,11 +47,13 @@ async function generateFloorPlan(floorId, takenSeats = []) {
 
           isRight && seatDiv.classList.add('right')
 
-          takenSeats.forEach(ss => {
-            if (table.name.includes(ss.seat.section) && seat === ss.seat.number) {
-              locateUser(seatDiv, ss)
-            }
-          })
+          if (takenSeats && takenSeats.length) {
+            takenSeats.forEach(ss => {
+              if (table.name.includes(ss.seat.section) && seat === ss.seat.number) {
+                locateUser(seatDiv, ss)
+              }
+            })
+          }
         })
       })
     })
